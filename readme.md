@@ -8,15 +8,16 @@
   - [Step 1 - Inisialisasi Proyek](#step-1---inisialisasi-proyek)
   - [Step 2 - Analisa File / Folder](#step-2---analisa-file--folder)
   - [Step 3 - Jalankan Proyek](#step-3---jalankan-proyek)
-  - [Step 4 - Membuat Routing /about](#step-4---membuat-routing-about)
-  - [Step 5 - Menambahkan "anchor" pada /about](#step-5---menambahkan-anchor-pada-about)
-  - [Step 6 - Membuat Routing /dashboard](#step-6---membuat-routing-dashboard)
+  - [Step 4 - Membuat Routing `/about`](#step-4---membuat-routing-about)
+  - [Step 5 - Menambahkan "anchor" pada `/about`](#step-5---menambahkan-anchor-pada-about)
+  - [Step 6 - Membuat Routing `/dashboard`](#step-6---membuat-routing-dashboard)
   - [Step 7 - Membuat Component DashboardSidebar](#step-7---membuat-component-dashboardsidebar)
-  - [Step 8 - Membuat Routing /dashboard/jokes](#step-8---membuat-routing-dashboardjokes)
-  - [Step 9 - Mempopulasikan data pada /dashboard/jokes](#step-9---mempopulasikan-data-pada-dashboardjokes)
-  - [Step 10 - Membuat halaman loading untuk /dashboard/jokes](#step-10---membuat-halaman-loading-untuk-dashboardjokes)
-  - [Step 11 - Membuat halaman error untuk /dashboard/jokes](#step-11---membuat-halaman-error-untuk-dashboardjokes)
+  - [Step 8 - Membuat Routing `/dashboard/jokes`](#step-8---membuat-routing-dashboardjokes)
+  - [Step 9 - Mempopulasikan data pada `/dashboard/jokes`](#step-9---mempopulasikan-data-pada-dashboardjokes)
+  - [Step 10 - Membuat halaman loading untuk `/dashboard/jokes`](#step-10---membuat-halaman-loading-untuk-dashboardjokes)
+  - [Step 11 - Membuat halaman error untuk `/dashboard/jokes`](#step-11---membuat-halaman-error-untuk-dashboardjokes)
   - [Step 12 - Menampilkan error yang di-throw dari server](#step-12---menampilkan-error-yang-di-throw-dari-server)
+  - [Step 13 - Membuat Dynamic Router `/dashboard/jokes/[id]`](#step-13---membuat-dynamic-router-dashboardjokesid)
 
 ## Pokok Pembahasan
 
@@ -29,6 +30,7 @@ Pada demo ini kita akan mempelajari:
 - Membuat data fetching
 - Membuat loading page
 - Membuat error page (Perkenalan Client Component)
+- Membuat dynamic router
 
 ## Disclaimer
 
@@ -76,7 +78,7 @@ File:
 1. Perhatikan pada `src/layout.tsx` berisi kode JSX yang akan digunakan oleh NextJS untuk membentuk halaman utama dan berisi tag `html` serta `metadata` yang akan digunakan untuk membuat SEO.
 1. Perhatikan pada `src/page.tsx` berisi kode JSX yang membentuk `tampilan` pada routing `/`
 
-### Step 4 - Membuat Routing /about
+### Step 4 - Membuat Routing `/about`
 
 Pada langkah ini mari kita mencoba untuk membuat sebuah routing baru dengan nama `/about` (`http://localhost:3000/about`)
 
@@ -99,7 +101,7 @@ Pada langkah ini mari kita mencoba untuk membuat sebuah routing baru dengan nama
 
 1. Buka kembali browser dan ketikkan `http://localhost:3000/about` dan voila, kita sudah berhasil membuat sebuah routing baru ! Cukup mudah bukan?
 
-### Step 5 - Menambahkan "anchor" pada /about
+### Step 5 - Menambahkan "anchor" pada `/about`
 
 Pada langkah ini kita akan membuat sebuah anchor yang akan mengarah ke `/` dari halaman `/about`. Pada NextJS, untuk membuat "anchor", kita akan menggunakan component bawaan yang sudah disediakan oleh NextJS, dengan nama `Link`
 
@@ -135,7 +137,7 @@ Pada langkah ini kita akan membuat sebuah anchor yang akan mengarah ke `/` dari 
 
 1. Jalankan pada browser dan lihat kembali halaman `http://localhost:3000/about`, selamat, kita sudah berhasil menambahkan Link pada halaman yang dibuat !
 
-### Step 6 - Membuat Routing /dashboard
+### Step 6 - Membuat Routing `/dashboard`
 
 Pada langkah ini kita akan membuat sebuah layout untuk Dashboard dan membuat sebuah routing baru dengan nama `/dashboard`.
 
@@ -295,7 +297,7 @@ Pada langkah ini kita akan memodifikasi kode pada layout Dashboard (`src/app/das
 
 1. Buka pada browser dan ketikkan `http://localhost:3000/dashboard`, apabila berhasil, tampilan akan sama seperti sebelumnya, hanya saja kode yang digunakan sudah lebih rapih dan terstruktur.
 
-### Step 8 - Membuat Routing /dashboard/jokes
+### Step 8 - Membuat Routing `/dashboard/jokes`
 
 Pada langkah ini kita akan membuat sebuah routing baru dengan nama `/dashboard/jokes` (`http://localhost:3000/dashboard/jokes`) yang akan menerima data dari backend yang sudah dimiliki dengan json-server (`http://localhost:3001/jokes`)
 
@@ -369,7 +371,7 @@ Pada langkah ini kita akan membuat sebuah routing baru dengan nama `/dashboard/j
    export default DashboardSidebar;
    ```
 
-### Step 9 - Mempopulasikan data pada /dashboard/jokes
+### Step 9 - Mempopulasikan data pada `/dashboard/jokes`
 
 Pada langkah ini kita akan mencoba untuk mempopulasikan data dari API backend (`http://localhost:3001/jokes`) ke dalam halaman `/dashboard/jokes` (`http://localhost:3000/dashboard/jokes`).
 
@@ -458,7 +460,7 @@ Pertanyaannya adalah: Mengapa bisa terjadi demikian?
 - Bisa kita lihat pada pembuktiannya pada inspect network yang ada pada browser, pada saat fetch data dari backend, TIDAK AKAN MUNCUL pada network, karena sudah di-fetch pada server.
 - Client hanya bisa melihat hasil dari tampilan yang sudah jadi, ibaratnya "hanya mendapatkan HTML akhirnya saja" !
 
-### Step 10 - Membuat halaman loading untuk /dashboard/jokes
+### Step 10 - Membuat halaman loading untuk `/dashboard/jokes`
 
 Pada langkah ini kita akan mencoba untuk membuat loading page untuk halaman `/dashboard/jokes` (`http://localhost:3000/dashboard/jokes`) dengan menggunakan built in loading page yang disediakan oleh NextJS
 
@@ -492,7 +494,7 @@ Pada langkah ini kita akan mencoba untuk membuat loading page untuk halaman `/da
 
    Apabila ingin mempelajari lebih lanjut, bisa dicoba baca pada [tautan ini](https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming) yah
 
-### Step 11 - Membuat halaman error untuk /dashboard/jokes
+### Step 11 - Membuat halaman error untuk `/dashboard/jokes`
 
 Pada langkah ini kita akan membuat error page untuk halaman `/dashboard/jokes` (`http://localhost:3000/dashboard/jokes`) dengan menggunakan built in error page yang disediakan oleh NextJS.
 
@@ -665,5 +667,84 @@ Nah, pada langkah ini kita akan melanjutkan langkah sebelumnya untuk menampilkan
 1. Coba kembali buka browser dan ketikkan `http://localhost:3000/dashboard/jokes`, maka akan muncul error page yang sudah dibuat dengan error hasil dari throw yang digunakan, mantap bukan?
 
 1. Tapi ternyata di sini muncul suatu istilah baru untuk error ini yah, yang kita sebut dengan `Client Component`, nah untuk `Client Component` dan `Server Component` ini akan kita bahas pada pembelajaran selanjutnya yah 😉.
+
+### Step 13 - Membuat Dynamic Router `/dashboard/jokes/[id]`
+
+Pada langkah ini kita akan membuat sebuah dynamic router dengan nama `/dashboard/jokes/[id]` (`http://localhost:3000/dashboard/jokes/1`) yang akan menerima data dari backend yang sudah dimiliki dengan json-server (`http://localhost:3001/jokes/1`)
+
+1. Membuat sebuah folder baru pada `src/app/dashboard/jokes` dengan nama `[id]` (`src/app/dashboard/jokes/[id]`), perhatikan bahwa ada kurung siku `[` dan `]` pada nama folder tersebut.
+
+   Folder ini akan menyatakan ada suatu "kedinamisan" (`params`) yang akan diproses oleh NextJS
+
+1. Membuat sebuah file baru pada `src/app/dashboard/jokes/[id]` dengan nama `page.tsx` (`src/app/dashboard/jokes/[id]/page.tsx`) dan menambahkan kode sebagai berikut:
+
+   ```tsx
+   // ?? Step 13 - Membuat Dynamic Router `/dashboard/jokes/[id]` (1)
+   // Membuat Type dari Joke yang akan diambil dari API
+   type Joke = {
+     id: string;
+     joke: string;
+     categories: string[];
+   };
+
+   // ?? Step 13 - Membuat Dynamic Router `/dashboard/jokes/[id]` (2)
+   // Membuat sebuah fungsi yang bersifat async untuk mengambil data dari API
+   const fetchJokeById = async (id: number) => {
+     const response = await fetch(`http://localhost:3001/jokes/${id}`);
+     const data: Joke = await response.json();
+
+     if (!response.ok) {
+       throw new Error(`FAILED_FETCH_JOKE_${id}`);
+     }
+
+     return data;
+   };
+
+   // ?? Step 13 - Membuat Dynamic Router `/dashboard/jokes/[id]` (3)
+   // Di sinilah kita akan menggunakan params yang kita dapatkan dari dynamic router
+
+   // Perhatikan di sini kita menerima sebuah params yang berisi suatu object
+   // dengan key `id` yang mana `id` ini kita dapatkan dari dynamic router
+
+   // Perhatikan juga karena ini merupakan component yang akan menunggu data
+   // fungsi fetchJokeById, maka harus dinyatakan sebagai "async" component.
+   const DashboardJokesByIdPage = async ({
+     params,
+   }: {
+     params: { id: string };
+   }) => {
+     // ?? Step 13 - Membuat Dynamic Router `/dashboard/jokes/[id]` (4)
+     // Memanggil fungsi fetchJokeById dengan id yang kita dapatkan dari params
+     const joke = await fetchJokeById(
+       // Di sini kita menambahkan logic untuk mencegah id tidak valid
+       Number(params.id) <= 0 ? 1 : Number(params.id)
+     );
+
+     return (
+       <section>
+         <h2 className="text-2xl font-semibold">
+           Dashboard Page - Joke ({params.id})
+         </h2>
+         {/* ?? Step 13 - Membuat Dynamic Router `/dashboard/jokes/[id]` (5) */}
+         {/* Menampilkan hasil dalam bentuk pre */}
+         <pre>{JSON.stringify(joke, null, 2)}</pre>
+       </section>
+     );
+   };
+
+   export default DashboardJokesByIdPage;
+   ```
+
+1. Buka browser dan ketikkan `http://localhost:3000/dashboard/jokes/1`, maka akan muncul hasil dari data yang sudah di-fetch dari backend.
+
+   Pertanyaannya adalah: _**`Memang boleh semudah ini (lagi, lagi, dan lagi)?`**_
+
+   Ya, karena pada `app router` ini, kita bisa membuat sebuah dynamic router dengan menambahkan kurung siku `[` dan `]` pada nama folder yang akan kita gunakan.
+
+   Untuk membaca lebih lanjut mengenai dynamic routing pada NextJS, bisa dengan membuka [tautan ini](https://nextjs.org/docs/routing/dynamic-routes) yah
+
+1. Perhatikan juga bahwa dalam kode ini, secara otomatis akan menggunakan loading yang dibuat pada `src/app/dashboard/jokes` dan juga akan menggunakan error yang dibuat pada `src/app/dasboard/jokes`.
+
+   Hal ini dikarenakan pada NextJS, routing akan mencari sebuah file dengan nama `loading.tsx` dan `error.tsx` dari routing folder sendiri hingga routing folder teratasnya (`/app`) secara otomatis !
 
 Sampai di sini materi kita sudah selesai, asik yah ternyata bermain dengan NextJS? Hanya saja, kode kita menjadi lebih teropini loh yah.
