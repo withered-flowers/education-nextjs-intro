@@ -2,6 +2,7 @@
 
 ## Table of Content
 
+- [Pokok Pembahasan](#pokok-pembahasan)
 - [Disclaimer](#disclaimer)
 - [Demo](#demo)
   - [Step 1 - Inisialisasi Proyek](#step-1---inisialisasi-proyek)
@@ -11,6 +12,22 @@
   - [Step 5 - Menambahkan "anchor" pada /about](#step-5---menambahkan-anchor-pada-about)
   - [Step 6 - Membuat Routing /dashboard](#step-6---membuat-routing-dashboard)
   - [Step 7 - Membuat Component DashboardSidebar](#step-7---membuat-component-dashboardsidebar)
+  - [Step 8 - Membuat Routing /dashboard/jokes](#step-8---membuat-routing-dashboardjokes)
+  - [Step 9 - Mempopulasikan data pada /dashboard/jokes](#step-9---mempopulasikan-data-pada-dashboardjokes)
+  - [Step 10 - Membuat halaman loading untuk /dashboard/jokes](#step-10---membuat-halaman-loading-untuk-dashboardjokes)
+  - [Step 11 - Membuat halaman error untuk /dashboard/jokes](#step-11---membuat-halaman-error-untuk-dashboardjokes)
+
+## Pokok Pembahasan
+
+Pada demo ini kita akan mempelajari:
+
+- NextJS App router
+- Membuat routing (layout dan page)
+- Membuat "anchor"
+- Membuat custom component
+- Membuat data fetching
+- Membuat loading page
+- Membuat error page (Perkenalan Client Component)
 
 ## Disclaimer
 
@@ -439,3 +456,43 @@ Pertanyaannya adalah: Mengapa bisa terjadi demikian?
 - Karena pada `app router`, sebenarnya component akan dibuat pada server (Server Side Rendering), sehingga pada client (browser), kita hanya perlu duduk manis menunggu hasil dari fetch data tersebut dan otomatis terpopulasi ke dalam table.
 - Bisa kita lihat pada pembuktiannya pada inspect network yang ada pada browser, pada saat fetch data dari backend, TIDAK AKAN MUNCUL pada network, karena sudah di-fetch pada server.
 - Client hanya bisa melihat hasil dari tampilan yang sudah jadi, ibaratnya "hanya mendapatkan HTML akhirnya saja" !
+
+### Step 10 - Membuat halaman loading untuk /dashboard/jokes
+
+Pada langkah ini kita akan mencoba untuk membuat loading page untuk halaman `/dashboard/jokes` (`http://localhost:3000/dashboard/jokes`) dengan menggunakan built in loading page yang disediakan oleh NextJS
+
+1. Membuat sebuah file baru pada folder `/src/app/dashboard/jokes` dengan nama `loading.tsx` (`/src/app/dashboard/jokes/loading.tsx`)
+1. Menambahkan kode berikut pada `loading.tsx`:
+
+   ```tsx
+   // ?? Step 10 - Membuat halaman loading untuk /dashboard/jokes (1)
+   const DashboardJokesLoading = () => {
+     return (
+       <section>
+         <h2 className="text-2xl font-semibold animate-pulse text-emerald-200">
+           Loading data to be loaded ...
+         </h2>
+       </section>
+     );
+   };
+
+   export default DashboardJokesLoading;
+   ```
+
+1. Buka terminal yang berhubungan dengan server yang sedang menjalankan `npm run watch`, matikan, dan nyalakan ulang dengan perintah (`npm run watch-delay`).
+
+   Perintah ini akan membuat server akan delay selama 5 detik sebelum menjalankan ulang.
+
+1. Buka kembali pada browser dan refresh dengan menghilangkan cache yang ada (shortcut: `CTRL + SHIFT + R` atau `CMD + SHIFT + R`), dan lihat hasilnya. voila ! Kita sudah berhasil membuat loading page secara otomatis, mudah sekali bukan?
+
+   Pertanyaannya adalah: _**`Memang boleh semudah ini?`**_
+
+   Ya, karena di dalam NextJS ini versi `app router` ini, semua componentnya berdiri pada Server (Server Component), dan untuk loading ini, sebenarnya memanfaatkan sebuah Component bawaan React yang bernama `Suspense` yang akan menunggu sebuah component yang bersifat async untuk di-load.
+
+   Apabila ingin mempelajari lebih lanjut, bisa dicoba baca pada [tautan ini](https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming) yah
+
+### Step 11 - Membuat halaman error untuk /dashboard/jokes
+
+Pada langkah ini kita akan membuat error page untuk halaman `/dashboard/jokes` (`http://localhost:3000/dashboard/jokes`) dengan menggunakan built in error page yang disediakan oleh NextJS.
+
+1. Membuat sebuah file baru pada folder `/src/app/dashboard/jokes` dengan nama `error.tsx` (`/src/app/dashboard/jokes/error.tsx`)

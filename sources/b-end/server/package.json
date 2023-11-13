@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "watch": "json-server --watch jokes.json --port 3001",
-    "watch-delay": "json-server --watch jokes.json --port 3001 --delay 2000"
+    "watch-delay": "json-server --watch jokes.json --port 3001 --delay 5000"
   },
   "keywords": [],
   "author": "",
