@@ -1,4 +1,4 @@
-# [WIP] Education NextJS Introduction
+# Education NextJS Introduction
 
 ## Table of Content
 
@@ -16,6 +16,7 @@
   - [Step 9 - Mempopulasikan data pada /dashboard/jokes](#step-9---mempopulasikan-data-pada-dashboardjokes)
   - [Step 10 - Membuat halaman loading untuk /dashboard/jokes](#step-10---membuat-halaman-loading-untuk-dashboardjokes)
   - [Step 11 - Membuat halaman error untuk /dashboard/jokes](#step-11---membuat-halaman-error-untuk-dashboardjokes)
+  - [Step 12 - Menampilkan error yang di-throw dari server](#step-12---menampilkan-error-yang-di-throw-dari-server)
 
 ## Pokok Pembahasan
 
@@ -495,4 +496,174 @@ Pada langkah ini kita akan mencoba untuk membuat loading page untuk halaman `/da
 
 Pada langkah ini kita akan membuat error page untuk halaman `/dashboard/jokes` (`http://localhost:3000/dashboard/jokes`) dengan menggunakan built in error page yang disediakan oleh NextJS.
 
-1. Membuat sebuah file baru pada folder `/src/app/dashboard/jokes` dengan nama `error.tsx` (`/src/app/dashboard/jokes/error.tsx`)
+1. Memodifikasi file `src/app/dashboard/jokes/page.tsx` untuk membuat koneksi error dan handling error (throw Error), dengan kode sebagai berikut:
+
+   Perhatikan `Step 11`
+
+   ```tsx
+   // ?? Step 9 - Mempopulasikan data pada /dashboard/jokes (0)
+   // Membuat definition type untuk data yang akan di-parse
+   type Joke = {
+     id: number;
+     setup: string;
+     delivery: string;
+   };
+
+   // ?? Step 9 - Mempopulasikan data pada /dashboard/jokes (1)
+   // Membuat sebuah fungsi yang bersifat async untuk mengambil data dari API
+   const fetchJokes = async () => {
+     // ?? Step 11 - Membuat halaman error untuk /dashboard/jokes (3)
+     // Membuat error terjadi secara "accidental"
+     const response = await fetch("http://localhost:3001/joke");
+     const responseJson: Joke[] = await response.json();
+
+     // ?? Step 11 - Membuat halaman error untuk /dashboard/jokes (4)
+     // Lempar error ketika terjadi masalah
+     if (!response.ok) {
+       throw new Error("Waduh Error ...");
+     }
+
+     // Kembalian dari fungsi ini adalah data yang sudah di-parse
+     return responseJson;
+   };
+
+   // ?? Step 8 - Membuat Routing /dashboard/jokes (1)
+   // ?? Step 9 - Mempopulasikan data pada /dashboard/jokes (2)
+   // Karena kita akan menunggu data dari fetchJokes
+   // maka component di bawah ini HARUS bersifat async
+   const DashboardJokePage = async () => {
+     // ?? Step 9 - Mempopulasikan data pada /dashboard/jokes (3)
+     // Gunakan fungsi fetchJokes untuk mengambil data
+     // Karena component sudah bersifat async
+     // maka di sini kita bisa meng-await fetchJokes
+     const jokes = await fetchJokes();
+
+     return (
+       <section>
+         <h2 className="text-2xl font-semibold">Dashboard Page - Jokes</h2>
+         {/* ?? Step 9 - Mempopulasikan data pada /dashboard/jokes (4) */}
+         {/* Gunakan jokes layaknya data yang biasa digunakan via "state" (READ-ONLY) */}
+         <table className="mt-4">
+           <thead>
+             <tr>
+               <th className="p-4">No</th>
+               <th className="p-4">Setup</th>
+               <th className="p-4">Delivery</th>
+             </tr>
+           </thead>
+           <tbody>
+             {jokes.map((todo, idx) => (
+               <tr key={todo.id}>
+                 <td>{idx + 1}</td>
+                 <td>{todo.setup}</td>
+                 <td>{todo.delivery}</td>
+               </tr>
+             ))}
+           </tbody>
+         </table>
+       </section>
+     );
+   };
+
+   export default DashboardJokePage;
+   ```
+
+1. Membuat sebuah file baru pada folder `/src/app/dashboard/jokes` dengan nama `error.tsx` (`/src/app/dashboard/jokes/error.tsx`) dan menambahkan kode sebagai berikut:
+
+   ```tsx
+   // ?? Step 11 - Membuat halaman error untuk /dashboard/jokes (1)
+   // Deklarasi error sebagai Client Component
+   "use client";
+
+   // ?? Step 11 - Membuat halaman error untuk /dashboard/jokes (2)
+   // Membuat component seperti biasa
+   const DashboardErrorPage = () => {
+     return (
+       <section>
+         <p className="text-red-400 animate-pulse">Something wicked happened</p>
+       </section>
+     );
+   };
+
+   export default DashboardErrorPage;
+   ```
+
+1. Buka browser dan ketikkan `http://localhost:3000/dashboard/jokes`, maka akan muncul error page yang sudah dibuat sebelumnya.
+
+   Pertanyaannya adalah: _**`Memang boleh semudah ini (lagi)?`**_
+
+   Ya, karena pada `app router` ini, kita bisa membuat sebuah error component yang bersifat `Client Component` dan menggunakan sesuatu dari React yang bernama `Error Boundary`.
+
+   Untuk membaca lebih lanjut mengenai error handling pada NextJS, bisa dengan membuka [tautan ini](https://nextjs.org/docs/app/building-your-application/routing/error-handling) yah
+
+### Step 12 - Menampilkan error yang di-throw dari server
+
+Pada langkah sebelumnya, kita bisa menampilkan error, tapi sifat dari errornya berupa sesuatu yang statik (tidak berubah-ubah) bukan?
+
+> Bagaimana bila kita ingin menampilkan error custom, hasil dari throw error yang dilempar oleh component?
+
+Nah, pada langkah ini kita akan melanjutkan langkah sebelumnya untuk menampilkan error yang di-throw dari server.
+
+1. Buka kembali file `src/app/dashboard/jokes/error.tsx` dan modifikasi kodenya menjadi sebagai berikut:
+
+   ```tsx
+   // ?? Step 11 - Membuat halaman error untuk /dashboard/jokes (1)
+   // Deklarasi error sebagai Client Component
+   "use client";
+
+   // ?? Step 12 - Menampilkan error yang di-throw dari server (1)
+   // Di sini kita akan menggunakan useEffect untuk meng-handle error
+   // Karena ini menggunakan client component, kita bisa menggunakan useEffect
+   import { useEffect } from "react";
+
+   // ?? Step 11 - Membuat halaman error untuk /dashboard/jokes (2)
+   // Membuat component seperti biasa
+
+   // ?? Step 12 - Menampilkan error yang di-throw dari server (2)
+   // Menerima props khusus untuk error: error dan reset
+   // error: berupa Error dan sebuah object yang berisi digest (optional), tipe string
+   // reset: berupa sebuah fungsi yang akan mereturn sesuatu yang berupa void
+   //        - digunakan untuk me-re-render segment yang terjadi error
+   const DashboardErrorPage = ({
+     error,
+     reset,
+   }: {
+     error: Error & { digest?: string };
+     reset: () => void;
+   }) => {
+     {
+       /* ?? Step 12 - Menampilkan error yang di-throw dari server (5) */
+     }
+     {
+       /* Mensimulasikan error yang terjadi dan bisa berubah */
+     }
+     useEffect(() => {
+       console.log(error);
+     }, [error]);
+
+     return (
+       <section>
+         <p className="text-red-400 animate-pulse">
+           {/* ?? Step 12 - Menampilkan error yang di-throw dari server (3) */}
+           Something wicked happened: {error.message}
+         </p>
+         {/* ?? Step 12 - Menampilkan error yang di-throw dari server (4) */}
+         {/* Membuat button untuk melakukan reset */}
+         <button
+           className="py-2 px-4 bg-red-400 rounded hover:text-white transition-colors duration-300"
+           onClick={() => reset()}
+         >
+           Reset
+         </button>
+       </section>
+     );
+   };
+
+   export default DashboardErrorPage;
+   ```
+
+1. Coba kembali buka browser dan ketikkan `http://localhost:3000/dashboard/jokes`, maka akan muncul error page yang sudah dibuat dengan error hasil dari throw yang digunakan, mantap bukan?
+
+1. Tapi ternyata di sini muncul suatu istilah baru untuk error ini yah, yang kita sebut dengan `Client Component`, nah untuk `Client Component` dan `Server Component` ini akan kita bahas pada pembelajaran selanjutnya yah 😉.
+
+Sampai di sini materi kita sudah selesai, asik yah ternyata bermain dengan NextJS? Hanya saja, kode kita menjadi lebih teropini loh yah.

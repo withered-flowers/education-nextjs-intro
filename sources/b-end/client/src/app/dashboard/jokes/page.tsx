@@ -9,8 +9,16 @@ type Joke = {
 // ?? Step 9 - Mempopulasikan data pada /dashboard/jokes (1)
 // Membuat sebuah fungsi yang bersifat async untuk mengambil data dari API
 const fetchJokes = async () => {
-  const response = await fetch("http://localhost:3001/jokes");
+  // ?? Step 11 - Membuat halaman error untuk /dashboard/jokes (3)
+  // Membuat error terjadi secara "accidental"
+  const response = await fetch("http://localhost:3001/joke");
   const responseJson: Joke[] = await response.json();
+
+  // ?? Step 11 - Membuat halaman error untuk /dashboard/jokes (4)
+  // Lempar error ketika terjadi masalah
+  if (!response.ok) {
+    throw new Error("Waduh Error ...");
+  }
 
   // Kembalian dari fungsi ini adalah data yang sudah di-parse
   return responseJson;
