@@ -31,14 +31,14 @@ const DashboardSidebar = () => {
             Dashboard
           </Link>
         </li>
-        {/* Step 8 - Membuat Routing /dashboard/todos (2) */}
-        {/* Menambahkan link untuk menuju Dashboard Todos */}
+        {/* Step 8 - Membuat Routing /dashboard/jokes (2) */}
+        {/* Menambahkan link untuk menuju Dashboard Jokes */}
         <li className="ml-4">
           <Link
             className="underline text-blue-400 hover:text-blue-600 underline-offset-4 transition-colors duration-300"
-            href="/dashboard/todos"
+            href="/dashboard/jokes"
           >
-            Dashboard - Todos
+            Dashboard - Jokes
           </Link>
         </li>
       </ul>

@@ -277,24 +277,24 @@ Pada langkah ini kita akan memodifikasi kode pada layout Dashboard (`src/app/das
 
 1. Buka pada browser dan ketikkan `http://localhost:3000/dashboard`, apabila berhasil, tampilan akan sama seperti sebelumnya, hanya saja kode yang digunakan sudah lebih rapih dan terstruktur.
 
-### Step 8 - Membuat Routing /dashboard/todos
+### Step 8 - Membuat Routing /dashboard/jokes
 
-Pada langkah ini kita akan membuat sebuah routing baru dengan nama `/dashboard/todos` (`http://localhost:3000/dashboard/todos`) yang akan menerima data dari backend yang sudah dimiliki dengan json-server (`http://localhost:3001/todos`)
+Pada langkah ini kita akan membuat sebuah routing baru dengan nama `/dashboard/jokes` (`http://localhost:3000/dashboard/jokes`) yang akan menerima data dari backend yang sudah dimiliki dengan json-server (`http://localhost:3001/jokes`)
 
-1. Membuat sebuah folder baru pada `src/app/dashboard` dengan nama `todos` (`src/app/dashboard/todos`)
-1. Membuat sebuah file baru pada folder tersebut dengan nama `page.tsx` (`src/app/dashboard/todos/page.tsx`) dan menambahkan kode sebagai berikut:
+1. Membuat sebuah folder baru pada `src/app/dashboard` dengan nama `jokes` (`src/app/dashboard/jokes`)
+1. Membuat sebuah file baru pada folder tersebut dengan nama `page.tsx` (`src/app/dashboard/jokes/page.tsx`) dan menambahkan kode sebagai berikut:
 
    ```tsx
-   const DashboardTodoPage = () => {
+   const DashboardJokePage = () => {
      return (
        <section>
-         <h2 className="text-2xl font-semibold">Dashboard Page - Todos</h2>
+         <h2 className="text-2xl font-semibold">Dashboard Page - Jokes</h2>
          {/* TODO: Akan menambahkan data di sini nanti */}
        </section>
      );
    };
 
-   export default DashboardTodoPage;
+   export default DashboardJokePage;
    ```
 
 1. Memodifikasi file DashboardSidebar.tsx (`/src/components/DashboardSidebar.tsx`) menjadi sebagai berikut:
@@ -333,14 +333,14 @@ Pada langkah ini kita akan membuat sebuah routing baru dengan nama `/dashboard/t
                Dashboard
              </Link>
            </li>
-           {/* Step 8 - Membuat Routing /dashboard/todos (2) */}
-           {/* Menambahkan link untuk menuju Dashboard Todos */}
+           {/* Step 8 - Membuat Routing /dashboard/jokes (2) */}
+           {/* Menambahkan link untuk menuju Dashboard Jokes */}
            <li className="ml-4">
              <Link
                className="underline text-blue-400 hover:text-blue-600 underline-offset-4 transition-colors duration-300"
-               href="/dashboard/todos"
+               href="/dashboard/jokes"
              >
-               Dashboard - Todos
+               Dashboard - Jokes
              </Link>
            </li>
          </ul>
@@ -350,3 +350,92 @@ Pada langkah ini kita akan membuat sebuah routing baru dengan nama `/dashboard/t
 
    export default DashboardSidebar;
    ```
+
+### Step 9 - Mempopulasikan data pada /dashboard/jokes
+
+Pada langkah ini kita akan mencoba untuk mempopulasikan data dari API backend (`http://localhost:3001/jokes`) ke dalam halaman `/dashboard/jokes` (`http://localhost:3000/dashboard/jokes`).
+
+Hasil dari populasi datanya akan masuk dalam bentuk sebuah table.
+
+Dalam cara React yang konvensional, cara yang akan kita gunakan adalah:
+
+- Menggunakan sebuah useEffect, dimana di dalamnya akan melakukan fetch data
+- Menggunakan sebuah state, untuk menyimpan data yang sudah di-fetch
+- Menggunakan state tersebut ke dalam sebuah table
+
+Bagaimanakah caranya dengan NextJS `app router` ini?
+
+- Dalam NextJS ini, Component yang digunakan **BOLEH DINYATAKAN** dalam bentuk sebuah **async component**
+- Sehingga kita bisa membuat sebuah fungsi yang bersifat **async** untuk melakukan fetch data, kemudian tinggal **duduk manis** (`await`) di dalam Component yang akan digunakan
+
+1. Install package yang dibutuhkan pada folder `server` (`sources/a-start/server`)
+1. Menjalankan server yang ada pada folder `server` dengan perintah `npm run watch`
+1. Memodifikasi file `src/app/dashboard/jokes/page.tsx`
+
+   ```tsx
+   // ?? Step 9 - Mempopulasikan data pada /dashboard/jokes (0)
+   // Membuat definition type untuk data yang akan di-parse
+   type Joke = {
+     id: number;
+     setup: string;
+     delivery: string;
+   };
+
+   // ?? Step 9 - Mempopulasikan data pada /dashboard/jokes (1)
+   // Membuat sebuah fungsi yang bersifat async untuk mengambil data dari API
+   const fetchJokes = async () => {
+     const response = await fetch("http://localhost:3001/jokes");
+     const responseJson: Joke[] = await response.json();
+
+     // Kembalian dari fungsi ini adalah data yang sudah di-parse
+     return responseJson;
+   };
+
+   // ?? Step 8 - Membuat Routing /dashboard/jokes (1)
+   // ?? Step 9 - Mempopulasikan data pada /dashboard/jokes (2)
+   // Karena kita akan menunggu data dari fetchJokes
+   // maka component di bawah ini HARUS bersifat async
+   const DashboardJokePage = async () => {
+     // ?? Step 9 - Mempopulasikan data pada /dashboard/jokes (3)
+     // Gunakan fungsi fetchJokes untuk mengambil data
+     // Karena component sudah bersifat async
+     // maka di sini kita bisa meng-await fetchJokes
+     const jokes = await fetchJokes();
+
+     return (
+       <section>
+         <h2 className="text-2xl font-semibold">Dashboard Page - Jokes</h2>
+         {/* ?? Step 9 - Mempopulasikan data pada /dashboard/jokes (4) */}
+         {/* Gunakan jokes layaknya data yang biasa digunakan via "state" (READ-ONLY) */}
+         <table className="mt-4">
+           <thead>
+             <tr>
+               <th className="p-4">No</th>
+               <th className="p-4">Setup</th>
+               <th className="p-4">Delivery</th>
+             </tr>
+           </thead>
+           <tbody>
+             {jokes.map((todo, idx) => (
+               <tr key={todo.id}>
+                 <td>{idx + 1}</td>
+                 <td>{todo.setup}</td>
+                 <td>{todo.delivery}</td>
+               </tr>
+             ))}
+           </tbody>
+         </table>
+       </section>
+     );
+   };
+
+   export default DashboardJokePage;
+   ```
+
+1. Jalankan pada browser dan lihat hasilnya, voila ! Data sudah akan terpopulasi dengan baik !
+
+Pertanyaannya adalah: Mengapa bisa terjadi demikian?
+
+- Karena pada `app router`, sebenarnya component akan dibuat pada server (Server Side Rendering), sehingga pada client (browser), kita hanya perlu duduk manis menunggu hasil dari fetch data tersebut dan otomatis terpopulasi ke dalam table.
+- Bisa kita lihat pada pembuktiannya pada inspect network yang ada pada browser, pada saat fetch data dari backend, TIDAK AKAN MUNCUL pada network, karena sudah di-fetch pada server.
+- Client hanya bisa melihat hasil dari tampilan yang sudah jadi, ibaratnya "hanya mendapatkan HTML akhirnya saja" !
