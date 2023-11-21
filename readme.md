@@ -2,7 +2,7 @@
 
 ## Table of Content
 
-- [Pokok Pembahasan](#pokok-pembahasan)
+- [Scope Pembelajaran](#scope-pembelajaran)
 - [Disclaimer](#disclaimer)
 - [Demo](#demo)
   - [Step 1 - Inisialisasi Proyek](#step-1---inisialisasi-proyek)
@@ -19,9 +19,7 @@
   - [Step 12 - Menampilkan error yang di-throw dari server](#step-12---menampilkan-error-yang-di-throw-dari-server)
   - [Step 13 - Membuat Dynamic Router `/dashboard/jokes/[id]`](#step-13---membuat-dynamic-router-dashboardjokesid)
 
-## Pokok Pembahasan
-
-Pada demo ini kita akan mempelajari:
+## Scope Pembelajaran
 
 - NextJS App router
 - Membuat routing (layout dan page)
@@ -34,12 +32,18 @@ Pada demo ini kita akan mempelajari:
 
 ## Disclaimer
 
-Untuk demo pada pembelajaran ini akan menggunakan:
+- Untuk demo pada pembelajaran ini akan menggunakan:
 
-- `NextJS app router`
-- `tailwindcss`
+  - `NextJS app router`
+  - `tailwindcss`
 
-Jadi untuk yang mencari `pages router`, mohon maaf, gunakan pembelajaran yang lainnya yah !
+    Jadi untuk yang mencari `pages router`, mohon maaf, gunakan pembelajaran yang lainnya yah !
+
+- Pembelajaran ini merupakan bagian **pertama** dari pembelajaran NextJS, Garis Besar pembelajarannya dapat dilihat di bawah ini:
+  - [Part 1 - NextJS - Intro](https://github.com/withered-flowers/education-nextjs-intro)
+  - [Part 2 - NextJS - Client Component & Server Actions](https://github.com/withered-flowers/education-nextjs-client-component-server-actions)
+  - [Part 3 - NextJS - Route Handler & Input Validation](https://github.com/withered-flowers/education-nextjs-route-handler-and-input-validation)
+  - [Part 4 - NextJS - Middleware & Authentication](https://github.com/withered-flowers/education-nextjs-middleware-and-authentication)
 
 ## Demo
 
