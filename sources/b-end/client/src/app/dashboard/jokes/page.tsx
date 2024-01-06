@@ -11,6 +11,7 @@ type Joke = {
 const fetchJokes = async () => {
   // ?? Step 11 - Membuat halaman error untuk /dashboard/jokes (3)
   // Membuat error terjadi secara "accidental"
+  // ! Apabila ingin dijalankan kembali, ubah /joke menjadi /jokes
   const response = await fetch("http://localhost:3001/joke");
   const responseJson: Joke[] = await response.json();
 
