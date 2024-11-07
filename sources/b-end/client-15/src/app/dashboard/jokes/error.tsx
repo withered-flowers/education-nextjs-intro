@@ -22,12 +22,8 @@ const DashboardErrorPage = ({
   error: Error & { digest?: string };
   reset: () => void;
 }) => {
-  {
-    /* ?? Step 12 - Menampilkan error yang di-throw dari server (5) */
-  }
-  {
-    /* Mensimulasikan error yang terjadi dan bisa berubah */
-  }
+  /* ?? Step 12 - Menampilkan error yang di-throw dari server (5) */
+  /* Mensimulasikan error yang terjadi dan bisa berubah */
   useEffect(() => {
     console.log(error);
   }, [error]);
@@ -41,6 +37,7 @@ const DashboardErrorPage = ({
       {/* ?? Step 12 - Menampilkan error yang di-throw dari server (4) */}
       {/* Membuat button untuk melakukan reset */}
       <button
+        type="button"
         className="py-2 px-4 bg-red-400 rounded hover:text-white transition-colors duration-300"
         onClick={() => reset()}
       >

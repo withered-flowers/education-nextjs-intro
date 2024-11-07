@@ -1,7 +1,7 @@
 // ?? Step 9 - Mempopulasikan data pada /dashboard/jokes (0)
 // Membuat definition type untuk data yang akan di-parse
 type Joke = {
-  id: number;
+  id: string;
   setup: string;
   delivery: string;
 };
@@ -11,9 +11,11 @@ type Joke = {
 const fetchJokes = async () => {
   // ?? Step 11 - Membuat halaman error untuk /dashboard/jokes (3)
   // Membuat error terjadi secara "accidental"
-  // ! Apabila ingin dijalankan kembali, ubah /joke menjadi /jokes
   const response = await fetch("http://localhost:3001/joke");
   const responseJson: Joke[] = await response.json();
+
+  // Simulasi untuk api yang lambat
+  await new Promise((resolve) => setTimeout(resolve, 2000));
 
   // ?? Step 11 - Membuat halaman error untuk /dashboard/jokes (4)
   // Lempar error ketika terjadi masalah
