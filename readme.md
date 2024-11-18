@@ -2,22 +2,24 @@
 
 ## Table of Content
 
-- [Scope Pembelajaran](#scope-pembelajaran)
-- [Disclaimer](#disclaimer)
-- [Demo](#demo)
-  - [Step 1 - Inisialisasi Proyek](#step-1---inisialisasi-proyek)
-  - [Step 2 - Analisa File / Folder](#step-2---analisa-file--folder)
-  - [Step 3 - Jalankan Proyek](#step-3---jalankan-proyek)
-  - [Step 4 - Membuat Routing `/about`](#step-4---membuat-routing-about)
-  - [Step 5 - Menambahkan "anchor" pada `/about`](#step-5---menambahkan-anchor-pada-about)
-  - [Step 6 - Membuat Routing `/dashboard`](#step-6---membuat-routing-dashboard)
-  - [Step 7 - Membuat Component DashboardSidebar](#step-7---membuat-component-dashboardsidebar)
-  - [Step 8 - Membuat Routing `/dashboard/jokes`](#step-8---membuat-routing-dashboardjokes)
-  - [Step 9 - Mempopulasikan data pada `/dashboard/jokes`](#step-9---mempopulasikan-data-pada-dashboardjokes)
-  - [Step 10 - Membuat halaman loading untuk `/dashboard/jokes`](#step-10---membuat-halaman-loading-untuk-dashboardjokes)
-  - [Step 11 - Membuat halaman error untuk `/dashboard/jokes`](#step-11---membuat-halaman-error-untuk-dashboardjokes)
-  - [Step 12 - Menampilkan error yang di-throw dari server](#step-12---menampilkan-error-yang-di-throw-dari-server)
-  - [Step 13 - Membuat Dynamic Router `/dashboard/jokes/[id]`](#step-13---membuat-dynamic-router-dashboardjokesid)
+- [Education NextJS Introduction](#education-nextjs-introduction)
+  - [Table of Content](#table-of-content)
+  - [Scope Pembelajaran](#scope-pembelajaran)
+  - [Disclaimer](#disclaimer)
+  - [Demo](#demo)
+    - [Step 1 - Inisialisasi Proyek](#step-1---inisialisasi-proyek)
+    - [Step 2 - Analisa File / Folder](#step-2---analisa-file--folder)
+    - [Step 3 - Jalankan Proyek](#step-3---jalankan-proyek)
+    - [Step 4 - Membuat Routing `/about`](#step-4---membuat-routing-about)
+    - [Step 5 - Menambahkan "anchor" pada `/about`](#step-5---menambahkan-anchor-pada-about)
+    - [Step 6 - Membuat Routing `/dashboard`](#step-6---membuat-routing-dashboard)
+    - [Step 7 - Membuat Component DashboardSidebar](#step-7---membuat-component-dashboardsidebar)
+    - [Step 8 - Membuat Routing `/dashboard/jokes`](#step-8---membuat-routing-dashboardjokes)
+    - [Step 9 - Mempopulasikan data pada `/dashboard/jokes`](#step-9---mempopulasikan-data-pada-dashboardjokes)
+    - [Step 10 - Membuat halaman loading untuk `/dashboard/jokes`](#step-10---membuat-halaman-loading-untuk-dashboardjokes)
+    - [Step 11 - Membuat halaman error untuk `/dashboard/jokes`](#step-11---membuat-halaman-error-untuk-dashboardjokes)
+    - [Step 12 - Menampilkan error yang di-throw dari server](#step-12---menampilkan-error-yang-di-throw-dari-server)
+    - [Step 13 - Membuat Dynamic Router `/dashboard/jokes/[id]`](#step-13---membuat-dynamic-router-dashboardjokesid)
 
 ## Scope Pembelajaran
 
@@ -687,13 +689,13 @@ Pada langkah ini kita akan membuat sebuah dynamic router dengan nama `/dashboard
    // Membuat Type dari Joke yang akan diambil dari API
    type Joke = {
      id: string;
-     joke: string;
-     categories: string[];
+     setup: string;
+     delivery: string;
    };
 
    // ?? Step 13 - Membuat Dynamic Router `/dashboard/jokes/[id]` (2)
    // Membuat sebuah fungsi yang bersifat async untuk mengambil data dari API
-   const fetchJokeById = async (id: number) => {
+   const fetchJokeById = async (id: string) => {
      const response = await fetch(`http://localhost:3001/jokes/${id}`);
      const data: Joke = await response.json();
 
@@ -719,10 +721,7 @@ Pada langkah ini kita akan membuat sebuah dynamic router dengan nama `/dashboard
    }) => {
      // ?? Step 13 - Membuat Dynamic Router `/dashboard/jokes/[id]` (4)
      // Memanggil fungsi fetchJokeById dengan id yang kita dapatkan dari params
-     const joke = await fetchJokeById(
-       // Di sini kita menambahkan logic untuk mencegah id tidak valid
-       Number(params.id) <= 0 ? 1 : Number(params.id)
-     );
+     const joke = await fetchJokeById(params.id);
 
      return (
        <section>
