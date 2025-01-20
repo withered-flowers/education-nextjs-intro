@@ -1,6 +1,7 @@
 // ?? Step 6 - Membuat Routing /dashboard (1)
 // layout ini akan meng-extend layout default dari NextJS (pages/app.tsx)
 // Digunakan untuk menampilkan sidebar dan content
+import Link from "next/link";
 
 // ?? Step 7 - Membuat Component DashboardSidebar (2)
 // Import Component DashboardSidebar

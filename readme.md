@@ -2,24 +2,22 @@
 
 ## Table of Content
 
-- [Education NextJS Introduction](#education-nextjs-introduction)
-  - [Table of Content](#table-of-content)
-  - [Scope Pembelajaran](#scope-pembelajaran)
-  - [Disclaimer](#disclaimer)
-  - [Demo](#demo)
-    - [Step 1 - Inisialisasi Proyek](#step-1---inisialisasi-proyek)
-    - [Step 2 - Analisa File / Folder](#step-2---analisa-file--folder)
-    - [Step 3 - Jalankan Proyek](#step-3---jalankan-proyek)
-    - [Step 4 - Membuat Routing `/about`](#step-4---membuat-routing-about)
-    - [Step 5 - Menambahkan "anchor" pada `/about`](#step-5---menambahkan-anchor-pada-about)
-    - [Step 6 - Membuat Routing `/dashboard`](#step-6---membuat-routing-dashboard)
-    - [Step 7 - Membuat Component DashboardSidebar](#step-7---membuat-component-dashboardsidebar)
-    - [Step 8 - Membuat Routing `/dashboard/jokes`](#step-8---membuat-routing-dashboardjokes)
-    - [Step 9 - Mempopulasikan data pada `/dashboard/jokes`](#step-9---mempopulasikan-data-pada-dashboardjokes)
-    - [Step 10 - Membuat halaman loading untuk `/dashboard/jokes`](#step-10---membuat-halaman-loading-untuk-dashboardjokes)
-    - [Step 11 - Membuat halaman error untuk `/dashboard/jokes`](#step-11---membuat-halaman-error-untuk-dashboardjokes)
-    - [Step 12 - Menampilkan error yang di-throw dari server](#step-12---menampilkan-error-yang-di-throw-dari-server)
-    - [Step 13 - Membuat Dynamic Router `/dashboard/jokes/[id]`](#step-13---membuat-dynamic-router-dashboardjokesid)
+- [Scope Pembelajaran](#scope-pembelajaran)
+- [Disclaimer](#disclaimer)
+- [Demo](#demo)
+  - [Step 1 - Inisialisasi Proyek](#step-1---inisialisasi-proyek)
+  - [Step 2 - Analisa File / Folder](#step-2---analisa-file--folder)
+  - [Step 3 - Jalankan Proyek](#step-3---jalankan-proyek)
+  - [Step 4 - Membuat Routing `/about`](#step-4---membuat-routing-about)
+  - [Step 5 - Menambahkan "anchor" pada `/about`](#step-5---menambahkan-anchor-pada-about)
+  - [Step 6 - Membuat Routing `/dashboard`](#step-6---membuat-routing-dashboard)
+  - [Step 7 - Membuat Component DashboardSidebar](#step-7---membuat-component-dashboardsidebar)
+  - [Step 8 - Membuat Routing `/dashboard/jokes`](#step-8---membuat-routing-dashboardjokes)
+  - [Step 9 - Mempopulasikan data pada `/dashboard/jokes`](#step-9---mempopulasikan-data-pada-dashboardjokes)
+  - [Step 10 - Membuat halaman loading untuk `/dashboard/jokes`](#step-10---membuat-halaman-loading-untuk-dashboardjokes)
+  - [Step 11 - Membuat halaman error untuk `/dashboard/jokes`](#step-11---membuat-halaman-error-untuk-dashboardjokes)
+  - [Step 12 - Menampilkan error yang di-throw dari server](#step-12---menampilkan-error-yang-di-throw-dari-server)
+  - [Step 13 - Membuat Dynamic Router `/dashboard/jokes/[id]`](#step-13---membuat-dynamic-router-dashboardjokesid)
 
 ## Scope Pembelajaran
 
@@ -56,8 +54,9 @@
 1. `Would you like to use TypeScript? Yes`
 1. `Would you like to use ESLint? Yes`
 1. `Would you like to use Tailwind CSS? Yes`
-1. `Would you like to use `src/` directory? Yes`
+1. `Would you like your code inside a `src/` directory? Yes`
 1. `Would you like to use App Router? (recommended) Yes`
+1. `Would you like to use `Turbopack` for next dev? Yes`
 1. `Would you like to customize the default import alias (@/*)? No`
 
 ### Step 2 - Analisa File / Folder
@@ -72,7 +71,7 @@ Folder:
 
 File:
 
-- `next.config.js` -> file konfigurasi NextJS
+- `next.config.ts` -> file konfigurasi NextJS
 - `src/app/layout.tsx` -> file layout utama yang digunakan oleh NextJS
 - `src/app/page.tsx` -> file routing yang digunakan oleh NextJS (akan mengarah ke `http://localhost:3000/`)
 
@@ -402,7 +401,7 @@ Bagaimanakah caranya dengan NextJS `app router` ini?
    // ?? Step 9 - Mempopulasikan data pada /dashboard/jokes (0)
    // Membuat definition type untuk data yang akan di-parse
    type Joke = {
-     id: number;
+     id: string;
      setup: string;
      delivery: string;
    };
@@ -412,6 +411,9 @@ Bagaimanakah caranya dengan NextJS `app router` ini?
    const fetchJokes = async () => {
      const response = await fetch("http://localhost:3001/jokes");
      const responseJson: Joke[] = await response.json();
+
+     // Simulasi untuk api yang lambat
+     await new Promise((resolve) => setTimeout(resolve, 2000));
 
      // Kembalian dari fungsi ini adalah data yang sudah di-parse
      return responseJson;
@@ -488,10 +490,6 @@ Pada langkah ini kita akan mencoba untuk membuat loading page untuk halaman `/da
    export default DashboardJokesLoading;
    ```
 
-1. Buka terminal yang berhubungan dengan server yang sedang menjalankan `npm run watch`, matikan, dan nyalakan ulang dengan perintah (`npm run watch-delay`).
-
-   Perintah ini akan membuat server akan delay selama 5 detik sebelum menjalankan ulang.
-
 1. Buka kembali pada browser dan refresh dengan menghilangkan cache yang ada (shortcut: `CTRL + SHIFT + R` atau `CMD + SHIFT + R`), dan lihat hasilnya. voila ! Kita sudah berhasil membuat loading page secara otomatis, mudah sekali bukan?
 
    Pertanyaannya adalah: _**`Memang boleh semudah ini?`**_
@@ -512,7 +510,7 @@ Pada langkah ini kita akan membuat error page untuk halaman `/dashboard/jokes` (
    // ?? Step 9 - Mempopulasikan data pada /dashboard/jokes (0)
    // Membuat definition type untuk data yang akan di-parse
    type Joke = {
-     id: number;
+     id: string;
      setup: string;
      delivery: string;
    };
@@ -524,6 +522,9 @@ Pada langkah ini kita akan membuat error page untuk halaman `/dashboard/jokes` (
      // Membuat error terjadi secara "accidental"
      const response = await fetch("http://localhost:3001/joke");
      const responseJson: Joke[] = await response.json();
+
+     // Simulasi untuk api yang lambat
+     await new Promise((resolve) => setTimeout(resolve, 2000));
 
      // ?? Step 11 - Membuat halaman error untuk /dashboard/jokes (4)
      // Lempar error ketika terjadi masalah
@@ -639,12 +640,8 @@ Nah, pada langkah ini kita akan melanjutkan langkah sebelumnya untuk menampilkan
      error: Error & { digest?: string };
      reset: () => void;
    }) => {
-     {
-       /* ?? Step 12 - Menampilkan error yang di-throw dari server (5) */
-     }
-     {
-       /* Mensimulasikan error yang terjadi dan bisa berubah */
-     }
+     /* ?? Step 12 - Menampilkan error yang di-throw dari server (5) */
+     /* Mensimulasikan error yang terjadi dan bisa berubah */
      useEffect(() => {
        console.log(error);
      }, [error]);
@@ -658,6 +655,7 @@ Nah, pada langkah ini kita akan melanjutkan langkah sebelumnya untuk menampilkan
          {/* ?? Step 12 - Menampilkan error yang di-throw dari server (4) */}
          {/* Membuat button untuk melakukan reset */}
          <button
+           type="button"
            className="py-2 px-4 bg-red-400 rounded hover:text-white transition-colors duration-300"
            onClick={() => reset()}
          >
@@ -689,8 +687,8 @@ Pada langkah ini kita akan membuat sebuah dynamic router dengan nama `/dashboard
    // Membuat Type dari Joke yang akan diambil dari API
    type Joke = {
      id: string;
-     setup: string;
-     delivery: string;
+     joke: string;
+     categories: string[];
    };
 
    // ?? Step 13 - Membuat Dynamic Router `/dashboard/jokes/[id]` (2)
@@ -711,24 +709,34 @@ Pada langkah ini kita akan membuat sebuah dynamic router dengan nama `/dashboard
 
    // Perhatikan di sini kita menerima sebuah params yang berisi suatu object
    // dengan key `id` yang mana `id` ini kita dapatkan dari dynamic router
+   // Karena ini didapatkan dari dynamic router, maka kita dapatkan
+   // via Promise dari params yang ada.
+
+   // Pada NextJS ini params berupa Promise dari suatu Object
+   // Bukan dari URLSearchParams seperti pada Web API
 
    // Perhatikan juga karena ini merupakan component yang akan menunggu data
    // fungsi fetchJokeById, maka harus dinyatakan sebagai "async" component.
    const DashboardJokesByIdPage = async ({
      params,
    }: {
-     params: { id: string };
+     params: Promise<{ id: string }>;
    }) => {
      // ?? Step 13 - Membuat Dynamic Router `/dashboard/jokes/[id]` (4)
+     // Mendapatkan id dari params (ingat params adalah Promise)
+     // Sehingga kita harus menunggu hasil dari Promise tersebut
+     const { id } = await params;
+
+     // ?? Step 13 - Membuat Dynamic Router `/dashboard/jokes/[id]` (5)
      // Memanggil fungsi fetchJokeById dengan id yang kita dapatkan dari params
-     const joke = await fetchJokeById(params.id);
+     const joke = await fetchJokeById(id);
 
      return (
        <section>
          <h2 className="text-2xl font-semibold">
-           Dashboard Page - Joke ({params.id})
+           Dashboard Page - Joke ({id})
          </h2>
-         {/* ?? Step 13 - Membuat Dynamic Router `/dashboard/jokes/[id]` (5) */}
+         {/* ?? Step 13 - Membuat Dynamic Router `/dashboard/jokes/[id]` (6) */}
          {/* Menampilkan hasil dalam bentuk pre */}
          <pre>{JSON.stringify(joke, null, 2)}</pre>
        </section>
@@ -738,13 +746,13 @@ Pada langkah ini kita akan membuat sebuah dynamic router dengan nama `/dashboard
    export default DashboardJokesByIdPage;
    ```
 
-1. Buka browser dan ketikkan `http://localhost:3000/dashboard/jokes/1`, maka akan muncul hasil dari data yang sudah di-fetch dari backend.
+1. Buka browser dan ketikkan `http://localhost:3000/dashboard/jokes/a875`, maka akan muncul hasil dari data yang sudah di-fetch dari backend.
 
    Pertanyaannya adalah: _**`Memang boleh semudah ini (lagi, lagi, dan lagi)?`**_
 
    Ya, karena pada `app router` ini, kita bisa membuat sebuah dynamic router dengan menambahkan kurung siku `[` dan `]` pada nama folder yang akan kita gunakan.
 
-   Untuk membaca lebih lanjut mengenai dynamic routing pada NextJS, bisa dengan membuka [tautan ini](https://nextjs.org/docs/routing/dynamic-routes) yah
+   Untuk membaca lebih lanjut mengenai dynamic routing pada NextJS, bisa dengan membuka [tautan ini](https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes) yah
 
 1. Perhatikan juga bahwa dalam kode ini, secara otomatis akan menggunakan loading yang dibuat pada `src/app/dashboard/jokes` dan juga akan menggunakan error yang dibuat pada `src/app/dasboard/jokes`.
 
